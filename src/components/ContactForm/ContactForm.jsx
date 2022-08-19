@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getItems } from 'redux/selectors';
+import { getItems } from 'redux/contacts/contactsSelectors';
 import { nanoid } from 'nanoid';
 import { Form, Label, Input, Button } from './ContactForm.styled';
 import { addContact } from 'redux/contactSlice';
@@ -42,7 +42,7 @@ export const ContactForm = () => {
     reset();
   };
 
-  // очищение инпутов формы
+  // очистка инпутов формы
   const reset = () => {
     setName('');
     setNumber('');
