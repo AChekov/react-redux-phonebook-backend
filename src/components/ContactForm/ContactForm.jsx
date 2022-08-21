@@ -1,13 +1,9 @@
 import { useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import { getItems } from 'redux/contacts/contactsSelectors';
-// import { nanoid } from 'nanoid';
 import { Form, Label, Input, Button } from './ContactForm.styled';
-// import { addContact } from 'redux/contactSlice';
 import {
   useGetContactsQuery,
   useCreateContactMutation,
-} from 'redux/contacts/contactsSlice';
+} from 'redux/contactsAPI';
 import { toast } from 'react-toastify';
 
 export const ContactForm = () => {
@@ -16,8 +12,6 @@ export const ContactForm = () => {
 
   const { data: contacts } = useGetContactsQuery();
   const [createContact] = useCreateContactMutation();
-
-  // const contacts = useSelector(getItems);
 
   const handleInputChange = evt => {
     const { value } = evt.currentTarget;
@@ -41,24 +35,10 @@ export const ContactForm = () => {
   const handleSubmit = evt => {
     evt.preventDefault();
     const contact = {
-      // id: nanoid(),
       name,
       phone,
     };
 
-    // const findName = contacts.find(
-    //   contact => contact.name.toLowerCase() === name.toLowerCase()
-    // );
-
-    // if (findName) {
-    //   return alert(`${name} is already in contacts.`);
-    // }
-    // const findPhone = contacts.find(contact => contact.phone === phone);
-    // if (findPhone) {
-    //   return alert(`This phone number is already in contacts.`);
-    // }
-
-    // dispatch(addContact(contact));
     addContact(contact);
   };
 

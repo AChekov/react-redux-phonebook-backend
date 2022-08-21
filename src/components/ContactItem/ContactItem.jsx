@@ -1,4 +1,4 @@
-import { useDeleteContactMutation } from 'redux/contacts/contactsSlice';
+import { useDeleteContactMutation } from 'redux/contactsAPI';
 import { Item, Contact, BtnDelete } from './ContactItem.style';
 import { RotatingLines } from 'react-loader-spinner';
 import PropTypes from 'prop-types';

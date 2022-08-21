@@ -1,9 +1,9 @@
+import { List, Error } from './ContactList.styled';
 import ContactItem from 'components/ContactItem';
 import Loader from 'components/Loader';
 import { useSelector } from 'react-redux';
-import { getFilter } from 'redux/contacts/contactsSelectors';
-import { useGetContactsQuery } from 'redux/contacts/contactsSlice';
-// import { Item } from './ContactList.styled';
+import { getFilter } from 'redux/filterSlice';
+import { useGetContactsQuery } from 'redux/contactsAPI';
 
 const ContactList = () => {
   const { data: contacts, error, isLoading } = useGetContactsQuery();
@@ -20,28 +20,19 @@ const ContactList = () => {
   };
 
   const contactList = filterContacts();
-
   const renderContacts = contacts && !isLoading && contactList.length > 0;
 
-  // const filterContact = useSelector(getFilter);
-
-  // const visibleContacts = contacts?.filter(contact =>
-  //   contact.name.toLowerCase().includes(filterContact.toLowerCase())
-  // );
-
-  // if (!visibleContacts) {
-  //   return;
-  // }
-
   return (
-    <ul>
+    <List>
       {renderContacts &&
         contactList.map(({ id, name, phone }) => (
           <ContactItem id={id} key={id} name={name} number={phone} />
         ))}
       {isLoading && <Loader />}
-      {error && <p>You are no have Contacts</p>}
-    </ul>
+      {error && (
+        <Error>Try adding phone details or contact your administrator</Error>
+      )}
+    </List>
   );
 };
 
