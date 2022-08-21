@@ -14,7 +14,7 @@ const App = () => {
       <p>Your Contacts:</p>
       <Filter />
       <ContactList />
-      <ToastContainer />
+      <ToastContainer autoClose={2500} />
     </AppContainer>
   );
 };
