@@ -4,12 +4,17 @@ import { useState } from 'react';
 // import { nanoid } from 'nanoid';
 import { Form, Label, Input, Button } from './ContactForm.styled';
 // import { addContact } from 'redux/contactSlice';
-import { useCreateContactMutation } from 'redux/contacts/contactsSlice';
+import {
+  useGetContactsQuery,
+  useCreateContactMutation,
+} from 'redux/contacts/contactsSlice';
+import { toast } from 'react-toastify';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
 
+  const { data: contacts } = useGetContactsQuery();
   const [createContact] = useCreateContactMutation();
 
   // const contacts = useSelector(getItems);
@@ -18,6 +23,19 @@ export const ContactForm = () => {
     const { value } = evt.currentTarget;
 
     evt.currentTarget.name === 'name' ? setName(value) : setPhone(value);
+  };
+
+  const addContact = data => {
+    const contactName = contacts.map(contact => contact.name.toLowerCase());
+    const isAdding = contactName.includes(data.name.toLowerCase());
+
+    if (!isAdding) {
+      createContact(data);
+      reset();
+      toast.success(`Contact, ${name} successfully added`);
+    } else {
+      toast.error(`${data.name} is already in contacts.`);
+    }
   };
 
   const handleSubmit = evt => {
@@ -41,11 +59,10 @@ export const ContactForm = () => {
     // }
 
     // dispatch(addContact(contact));
-    createContact(contact);
-    reset();
+    addContact(contact);
   };
 
-  // очистка инпутов формы
+  // очистка инпутов
   const reset = () => {
     setName('');
     setPhone('');

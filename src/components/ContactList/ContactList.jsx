@@ -40,6 +40,7 @@ const ContactList = () => {
           <ContactItem id={id} key={id} name={name} number={phone} />
         ))}
       {isLoading && <Loader />}
+      {error && <p>You are no have Contacts</p>}
     </ul>
   );
 };
