@@ -1,51 +1,54 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getItems } from 'redux/contacts/contactsSelectors';
-import { nanoid } from 'nanoid';
+// import { useSelector } from 'react-redux';
+// import { getItems } from 'redux/contacts/contactsSelectors';
+// import { nanoid } from 'nanoid';
 import { Form, Label, Input, Button } from './ContactForm.styled';
-import { addContact } from 'redux/contactSlice';
+// import { addContact } from 'redux/contactSlice';
+import { useCreateContactMutation } from 'redux/contacts/contactsSlice';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
-  const dispatch = useDispatch();
-  const contacts = useSelector(getItems);
+  const [createContact] = useCreateContactMutation();
+
+  // const contacts = useSelector(getItems);
 
   const handleInputChange = evt => {
     const { value } = evt.currentTarget;
 
-    evt.currentTarget.name === 'name' ? setName(value) : setNumber(value);
+    evt.currentTarget.name === 'name' ? setName(value) : setPhone(value);
   };
 
   const handleSubmit = evt => {
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
-    };
     evt.preventDefault();
+    const contact = {
+      // id: nanoid(),
+      name,
+      phone,
+    };
 
-    const findName = contacts.find(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
+    // const findName = contacts.find(
+    //   contact => contact.name.toLowerCase() === name.toLowerCase()
+    // );
 
-    if (findName) {
-      return alert(`${name} is already in contacts.`);
-    }
-    const findNumber = contacts.find(contact => contact.number === number);
-    if (findNumber) {
-      return alert(`This phone number is already in contacts.`);
-    }
+    // if (findName) {
+    //   return alert(`${name} is already in contacts.`);
+    // }
+    // const findPhone = contacts.find(contact => contact.phone === phone);
+    // if (findPhone) {
+    //   return alert(`This phone number is already in contacts.`);
+    // }
 
-    dispatch(addContact(contact));
+    // dispatch(addContact(contact));
+    createContact(contact);
     reset();
   };
 
   // очистка инпутов формы
   const reset = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   return (
@@ -65,11 +68,11 @@ export const ContactForm = () => {
       <Label>
         <Input
           type="tel"
-          name="number"
+          name="phone"
           placeholder="Phone number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          value={number}
+          value={phone}
           onChange={handleInputChange}
           required
         />
